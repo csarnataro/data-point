@@ -30,7 +30,7 @@ describe('resolve#reducer.resolve - with valid reducers', () => {
       resolveReducer,
       accumulator,
       reducerList
-    ).then(result => expect(result.value).toBeUndefined())
+    ).then(result => expect(result).toBeUndefined())
   })
 
   test('one reducer', () => {
@@ -45,7 +45,7 @@ describe('resolve#reducer.resolve - with valid reducers', () => {
       resolveReducer,
       accumulator,
       reducerList
-    ).then(result => expect(result.value).toEqual(testData.a.g))
+    ).then(result => expect(result).toEqual(testData.a.g))
   })
 
   test('multiple reducers', () => {
@@ -60,7 +60,7 @@ describe('resolve#reducer.resolve - with valid reducers', () => {
       resolveReducer,
       accumulator,
       reducerList
-    ).then(result => expect(result.value).toBe(1))
+    ).then(result => expect(result).toBe(1))
   })
 })
 
@@ -77,7 +77,7 @@ describe('resolve#reducer.resolve - reducer model', () => {
       resolveReducer,
       accumulator,
       reducerList
-    ).then(result => expect(result.value).toEqual(testData))
+    ).then(result => expect(result).toEqual(testData))
   })
 
   test('it returns original input after piping through hash:asIs', () => {
@@ -93,7 +93,7 @@ describe('resolve#reducer.resolve - reducer model', () => {
       accumulator,
       reducerList
     ).then(result => {
-      expect(result.value).toEqual(testData.a.h)
+      expect(result).toEqual(testData.a.h)
     })
   })
 })
@@ -118,7 +118,7 @@ describe('resolve#reducer.resolve - reducer request', () => {
       accumulator,
       reducerList
     ).then(result =>
-      expect(result.value).toEqual({
+      expect(result).toEqual({
         ok: true
       })
     )
@@ -147,9 +147,48 @@ describe('resolve#reducer.resolve - reducer request', () => {
       accumulator,
       reducer
     ).then(result => {
-      expect(result.value).toEqual({
+      expect(result).toEqual({
         ok: true
       })
     })
+  })
+})
+
+describe('resolve#reducer.resolve - with falsy input', () => {
+  const testFalsyInput = async (inputValue, expectedValue) => {
+    const accumulator = AccumulatorFactory.create({
+      value: inputValue
+    })
+
+    const functionA = jest.fn(input => `${input}1`)
+    const functionB = jest.fn(input => `${input}2`)
+
+    const reducerList = createReducerList(createReducer, [functionA, functionB])
+
+    const result = await resolveReducerList(
+      manager,
+      resolveReducer,
+      accumulator,
+      reducerList
+    )
+    expect(result).toBe(expectedValue)
+    expect(functionA).toHaveBeenCalledTimes(1)
+    expect(functionB).toHaveBeenCalledTimes(1)
+  }
+
+  test('with undefined as input', () => {
+    return testFalsyInput(undefined, 'null12')
+  })
+
+  test('with null as input', () => {
+    return testFalsyInput(null, 'null12')
+  })
+
+  test('with zero as input', () => {
+    return testFalsyInput(0, '012')
+  })
+
+  test('with an empty string as input', () => {
+    return testFalsyInput('', '12')
   })
 })

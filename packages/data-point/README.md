@@ -496,7 +496,7 @@ A path reducer is a `string` that extracts a path from the current [Accumulator]
   dataPoint
     .resolve('$', input)
     .then((output) => {
-      assert.equal(output, input)
+      assert.strictEqual(output, input)
     })
   ```
 </details>
@@ -522,7 +522,7 @@ A path reducer is a `string` that extracts a path from the current [Accumulator]
   dataPoint
     .resolve('$..value', input)
     .then(output => {
-      assert.equal(output input)
+      assert.strictEqual(output input)
     })
   ```
 </details>
@@ -548,7 +548,7 @@ A path reducer is a `string` that extracts a path from the current [Accumulator]
   dataPoint
     .resolve('$a.b[0]', input)
     .then(output => {
-      assert.equal(output, 'Hello World')
+      assert.strictEqual(output, 'Hello World')
     })
   ```
 </details>
@@ -586,7 +586,7 @@ Example at: [examples/reducer-path.js](examples/reducer-path.js)
   dataPoint
     .resolve('$a.b[]', input)
     .then(output => {
-      assert.deepEqual(output, ['Hello World', 'Hello Solar System', 'Hello Universe'])
+      assert.deepStrictEqual(output, ['Hello World', 'Hello Solar System', 'Hello Universe'])
     })
   ```
 </details>
@@ -633,7 +633,7 @@ const name = (input:*, acc:Accumulator) => {
   dataPoint
     .resolve(reducer, 'Hello')
     .then((output) => {
-      assert.equal(output, 'Hello World')
+      assert.strictEqual(output, 'Hello World')
     })
   ```
 </details>
@@ -672,7 +672,7 @@ const name = (input:*, acc:Accumulator) => {
   dataPoint
     .resolve(reducer, 'Hello')
     .then((output) => {
-      assert.equal(output, 'Hello World')
+      assert.strictEqual(output, 'Hello World')
     })
   ```
 </details>
@@ -711,7 +711,7 @@ const name = (input:*, acc:Accumulator, next:function) => {
   dataPoint
     .resolve(reducer, 'Hello')
     .then((output) => {
-      assert.equal(output, 'Hello World')
+      assert.strictEqual(output, 'Hello World')
     })
   ```
 </details>
@@ -949,7 +949,7 @@ See the [Entities](#entities) section for information about the supported entity
   dataPoint
     .resolve([PersonRequest, PersonModel], 1)
     .then((output) => {
-      assert.deepEqual(output, {
+      assert.deepStrictEqual(output, {
         name: 'Luke Skywalker',
         birthYear: '19BBY'
       })
@@ -1006,7 +1006,7 @@ See the [Entities](#entities) section for information about the supported entity
   dataPoint
     .resolve(['reducer:getGreeting | reducer:toUpperCase'], input)
     .then((output) => {
-      assert.equal(output, 'HELLO WORLD')
+      assert.strictEqual(output, 'HELLO WORLD')
     })
   ```
 </details>
@@ -1035,10 +1035,10 @@ See the [Entities](#entities) section for information about the supported entity
   dataPoint
     .resolve(['$a | reducer:toUpperCase[]'], input)
     .then((output) => {
-      assert.equal(output[0], 'HELLO WORLD')
-      assert.equal(output[1], 'HELLO LAIA')
-      assert.equal(output[2], 'HELLO DAREK')
-      assert.equal(output[3], 'HELLO ITALY')
+      assert.strictEqual(output[0], 'HELLO WORLD')
+      assert.strictEqual(output[1], 'HELLO LAIA')
+      assert.strictEqual(output[2], 'HELLO DAREK')
+      assert.strictEqual(output[3], 'HELLO ITALY')
     })
   ```
 </details>
@@ -1097,7 +1097,7 @@ dataPoint.addEntities({
 dataPoint
   .resolve('reducer:getPerson[]', people)
   .then((output) => {
-    assert.deepEqual(output, [
+    assert.deepStrictEqual(output, [
       {
         name: 'Luke Skywalker',
         birthYear: '19BBY'
@@ -1758,7 +1758,7 @@ dataPoint.addEntities({
   dataPoint
     .resolve('reducer:foo', input)
     .then((output) => {
-      assert.equal(output, 30)
+      assert.strictEqual(output, 30)
     })
   ```
 </details>
@@ -1826,7 +1826,7 @@ dataPoint.addEntities({
   dataPoint
     .resolve('model:foo', input)
     .then((output) => {
-      assert.equal(output, 30)
+      assert.strictEqual(output, 30)
     })
   ```
 </details>
@@ -1856,7 +1856,7 @@ Example at: [examples/entity-model-basic.js](examples/entity-model-basic.js)
   dataPoint
     .resolve('model:foo', 100)
     .then((output) => {
-      assert.deepEqual(output, [100])
+      assert.deepStrictEqual(output, [100])
     })
   ```
 </details>
@@ -1892,7 +1892,7 @@ Example at: [examples/entity-model-before.js](examples/entity-model-before.js)
   dataPoint
     .resolve('model:foo', input)
     .then((output) => {
-      assert.deepEqual(output, [3, 15])
+      assert.deepStrictEqual(output, [3, 15])
     })
   ```
 </details>
@@ -1943,7 +1943,7 @@ Passing a value as the second argument will stop the propagation of the error.
   dataPoint
     .resolve('model:getArray', input)
     .then((output) => {
-      assert.deepEqual(output, [])
+      assert.deepStrictEqual(output, [])
     })
   ```
 </details>
@@ -2009,7 +2009,7 @@ The params object is used to pass custom data to your entity. This Object is exp
   dataPoint
     .resolve('model:multiply', 200)
     .then((output) => {
-      assert.deepEqual(output, 20000)
+      assert.deepStrictEqual(output, 20000)
     })
   ```
 </details>
@@ -2030,7 +2030,7 @@ The params object is used to pass custom data to your entity. This Object is exp
   
   dataPoint.resolve('model:getParam')
     .then((output) => {
-      assert.deepEqual(output, 100)
+      assert.deepStrictEqual(output, 100)
     })
   ```
 </details>
@@ -2245,7 +2245,7 @@ For more information on acc.locals: [Transform Options](#transform-options) and 
   dataPoint
     .resolve('request:searchPeople', input)
     .then(output => {
-      assert.equal(output.results[0].name, 'R2-D2')
+      assert.strictEqual(output.results[0].name, 'R2-D2')
     })
   ```
 </details>
@@ -2254,7 +2254,7 @@ Example at: [examples/entity-request-options.js](examples/entity-request-options
 
 For more examples of request entities, see the [Examples](examples), the [Integration Examples](test/definitions/integrations.js), and the unit tests: [Request Definitions](test/definitions/requests.js).
 
-#### Inspecting Request
+#### Inspecting Request Entities
 
 You may inspect a Request entity through the `params.inspect` property.
 
@@ -2272,10 +2272,41 @@ dataPoint.addEntities({
 })
 ```
 
-If `params.inspect` is `true` it will output the entity's information to the console.
+**Boolean**
 
-If `params.inspect` is a `function`, you may execute custom debugging code to be executed before the actual request gets made. The function receives the current accumulator value as its only parameter.
+If `params.inspect` is `true`, it will output the entity's information to the console.
 
+**Function**
+
+If `params.inspect` is a function, it will be called twice: once before the request is made, and once when the request is resolved. It should have the signature ```(accumulator: Object, data: Object)```.
+
+The `inspect` function is first called just before initiating the request. The first argument is the `accumulator`, and the second is a `data` object with these properties:
+
+```js
+{
+  type: 'request',
+  // unique ID that is shared with the 'response' object
+  debugId: Number,
+  // ex: 'GET'
+  method: String,
+  // fully-formed URI
+  uri: String,
+  // the value of request.body (or undefined)
+  [body]: String
+}
+```
+
+It's then called when the request succeeds or fails. The `data` object will have a `type` property of either `'response'` or `'error'`. The `debugId` can be used to match the response with the corresponding request.
+
+```js
+{
+  type: 'response|error',
+  // unique ID that is shared with the 'request' object
+  debugId: Number,
+  // http status code
+  statusCode: Number,
+}
+```
 
 ### Hash
 
@@ -2349,7 +2380,7 @@ Hash entities expose a set of optional reducers: [mapKeys](#hashmapkeys), [omitK
   dataPoint
     .resolve('hash:helloWorld', input)
     .then((output) => {
-      assert.deepEqual(output, {
+      assert.deepStrictEqual(output, {
         c: 'Hello',
         d: ' World!!'
       })
@@ -2396,7 +2427,7 @@ Going back to our GitHub API examples, let's map some keys from the result of a 
   }
 
   dataPoint.resolve('hash:mapKeys', input).then(output => {
-    assert.deepEqual(output, {
+    assert.deepStrictEqual(output, {
       name: 'DataPoint',
       url: 'https://github.com/ViacomInc/data-point'
     })
@@ -2431,7 +2462,7 @@ Hash.addKeys is very similar to Hash.mapKeys, but the difference is that `mapKey
   }
 
   dataPoint.resolve('hash:addKeys', input).then(output => {
-    assert.deepEqual(output, {
+    assert.deepStrictEqual(output, {
       name: 'DataPoint',
       nameLowerCase: 'datapoint',
       url: 'https://github.com/ViacomInc/data-point'
@@ -2467,7 +2498,7 @@ The next example is similar to the previous example. However, instead of mapping
   dataPoint.resolve('hash:pickKeys', input).then(output => {
     // notice how name is no longer 
     // in the object
-    assert.deepEqual(output, {
+    assert.deepStrictEqual(output, {
       url: 'https://github.com/ViacomInc/data-point'
     })
   })
@@ -2504,7 +2535,7 @@ This example will only **omit** some keys, and let the rest pass through:
   }
 
   dataPoint.resolve('hash:omitKeys', input).then(output => {
-    assert.deepEqual(output, expectedResult)
+    assert.deepStrictEqual(output, expectedResult)
   })
   ```
 </details>
@@ -2545,7 +2576,7 @@ Sometimes you just want to add a hard-coded value to your current `acc.value`.
   dataPoint
     .resolve('hash:addValues')
     .then((output) => {
-      assert.deepEqual(output, expectedResult)
+      assert.deepStrictEqual(output, expectedResult)
     })
   ```
 </details>
@@ -2595,7 +2626,7 @@ You can add multiple reducers to your Hash spec.
   dataPoint
     .resolve('entry:orgInfo', { org: 'nodejs' })
     .then((output) => {
-      assert.deepEqual(output, expectedResult)
+      assert.deepStrictEqual(output, expectedResult)
     })
   ```
 </details>
@@ -3338,28 +3369,84 @@ dataPoint.use(id:String, callback:Function)
 | Argument | Type | Description |
 |:---|:---|:---|
 | *id* | `string` | This ID is a string with the form `<EntityType>:<EventType>`, where `<EntityType>` is any registered entity type and `<EventType>` is either `'before'` or `'after'`. |
-| *callback* | `Function` | This is the callback function that will be executed once an entity event is triggered. The callback has the form `(acc, next)`, where `acc` is the current middleware [Middleware Accumulator](#middleware-accumulator-object) object, and next is a function callback to be executed once the middleware is done executing. The `next` callback uses the form of `(error)`. |
+| *callback* | `Function` | This is the callback function that will be executed once an entity event is triggered. The callback has the form `(acc, next)`, where `acc` is the current middleware [Middleware Accumulator](#middleware-accumulator-object) object, and next is a function callback to be executed once the middleware is done executing. The `next` callback uses the form of `(error, resolvedValue)`. |
 
-### Middleware Accumulator object
-
-This is the current [Accumulator](#accumulator) object with a `resolve(value)` method appended to it. If `acc.resolve(value)` is called inside a middleware function, the entity will resolve to that value without executing any remaining methods. This allows you to skip unnecessary work if, for example, a cached return value was found.
-
-**NOTE**: It's still required to call `next()` after `acc.resolve(value)`; otherwise, the function will hang indefinitely.
-
-**SYNOPSIS**
+**EXAMPLE:**
 
 ```js
-{ // extends Accumulator
-  resolve: Function,
-  ...
-}
+const dp = DataPoint.create()
+
+dp.use('before', (acc, next) => {
+  console.log(`Entity ${acc.reducer.id} is being called`)
+  next()
+})
+
+dp.use('after', (acc, next) => {
+  console.log(`Entity ${acc.reducer.id} was called`)
+  next()
+})
+
+const MyModel = DataPoint.Model('MyModel', {
+  value: () => 'new value'
+})
+
+dp.resolve(MyModel, true)
+  // console output: 
+  //   Entity model:MyModel is being called
+  //   Entity model:MyModel was called
+  .then(() => {
+
+  })
 ```
 
-**API:**
+### Exiting Middleware chain
 
-| Key | Type | Description |
-|:---|:---|:---|
-| `resolve` | `Function` | Will resolve the entire entity with the value passed. This function has the form of: `(value)` |
+To exit the middleware chain with a resolved value you must pass a second parameter to the `next(err, val)` function provided by the middleware handler. By calling the `next` function with `null` as first parameter and a value as a second parameter (eg. `next(null, newValue`) the entity will resolve to that value without executing any remaining methods in the middleware chain. This allows you to skip unnecessary work if, for example, a cached return value was found.
+
+**NOTE**: the `next` method should be called only once per middleware handler, multiple calls will be ignored.
+
+
+<details>
+  <summary>hijacking the value of an entity</summary>
+
+  ```js
+  const dp = DataPoint.create()
+
+  dp.use('before', (acc, next) => {
+    console.log('Entity model:MyModel is being called')
+    next()
+  })
+
+  dp.use('before', (acc, next) => {
+    console.log('hijacking')
+    next(null, 'hijacked')
+  })
+
+  dp.use('before', (acc, next) => {
+    console.log('never got here')
+    next()
+  })
+
+  const MyModel = DataPoint.Model('MyModel', {
+    value: () => {
+      // this will not be executed because the entity was hijacked
+      console.log('processing')
+      return 'hello'
+    }
+  })
+
+  dp.resolve(MyModel, true)
+    // console output:
+    //   Entity model:MyModel is being called
+    //   hijacking
+    .then((value) => {
+      assert.strictEqual(value, 'hijacked')
+    })
+  ```
+
+</details>
+
+Example at: [examples/middleware-exit-chain.js](examples/middleware-exit-chain.js)
 
 ## Custom Entity Types
 
@@ -3424,7 +3511,7 @@ function create(name:String, spec:Object):Object
 This is where your entity resolution logic is to be implemented. It follows the following syntax: 
 
 ```js
-function resolve(acc:Accumulator, resolveReducer:function):Promise<Accumulator>
+function resolve(acc:Accumulator, resolveReducer:function):Promise
 ```
 
 <details>
@@ -3505,7 +3592,7 @@ function resolve(acc:Accumulator, resolveReducer:function):Promise<Accumulator>
   dataPoint
     .resolve('render:HelloWorld', input)
     .then((output) => {
-      assert.equal(output, '<h1>Hello World!!</h1>')
+      assert.strictEqual(output, '<h1>Hello World!!</h1>')
     })
   ```
 </details>
@@ -3596,80 +3683,7 @@ app.listen(3000, function () {
 
 ## Patterns and Best Practices
 
-This section documents some of the patterns and best practices we have found useful while using DataPoint.
-
-### Parameterize a Function Reducer
-
-You may use a [higher order function](https://medium.com/javascript-scene/higher-order-functions-composing-software-5365cf2cbe99) to parameterize a [function reducer](#function-reducer). To do this you will create a function that **must** return a [function reducer](#function-reducer).
-
-```js
-// sync
-const name = (param1, param2, ...) => (input:*, acc:Accumulator) => {
-  return newValue
-}
-// async via promise
-const name = (param1, param2, ...) => (input:*, acc:Accumulator) => {
-  return Promise.resolve(newValue)
-}
-// async via callback
-const name = (param1, param2, ...) => (input:*, acc:Accumulator, next:function) => {
-  next(error:Error, newValue:*)
-}
-```
-
-<details>
-  <summary>Higher Order Reducer Example</summary>
-  
-  ```js
-  const addStr = (newString) => (input) => {
-    return `${input}${newString}`
-  }
-  
-  dataPoint
-    .resolve(addStr(' World!!'), 'Hello')
-    .then((output) => {
-      assert.equal(output, 'Hello World!!')
-    })
-  ```
-</details>
-
-
-Example at: [examples/reducer-function-closure.js](examples/reducer-function-closure.js)
-
-### Keeping your Function Reducers pure
-
-Function reducers should be [pure functions](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.r4iqvt9f0) that do not produce side effects. This means you should never modify the [Accumulator](#accumulator) object.
-
-<details>
-  <summary>Example</summary>
-
-  ```js
-  const badReducer = () => (input) => {
-    // never ever modify the value object.
-    input[1].username = 'foo'
-
-    // keep in mind JS is by reference
-    // so this means this is also
-    // modifying the value object
-    const image = input[1]
-    image.username = 'foo'
-
-    // pass value to next reducer
-    return input
-  }
-
-  // this is better
-  const fp = require('lodash/fp')
-  const goodReducer = () => (input) => {
-    // https://github.com/lodash/lodash/wiki/FP-Guide
-    // this will cause no side effects
-    const newValue = fp.set('[1].username', 'foo', input)
-
-    // pass value to next reducer
-    return newValue
-  }
-  ```
-</details>
+For recommended patterns and best practices, please visit [docs/best-practices.md](docs/best-practices.md)
 
 ## Contributing
 

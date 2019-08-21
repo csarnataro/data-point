@@ -7,20 +7,23 @@ const utils = require('../../utils')
  * @param {Function} resolveReducer
  * @param {Accumulator} accumulator
  * @param {ReducerList} reducerList
- * @returns {Promise<Accumulator>}
+ * @returns {Promise}
  */
 function resolve (manager, resolveReducer, accumulator, reducerList) {
   const reducers = reducerList.reducers
   if (reducers.length === 0) {
-    return Promise.resolve(utils.set(accumulator, 'value', undefined))
+    return Promise.resolve(undefined)
   }
 
+  const initialValue =
+    accumulator.value === undefined ? null : accumulator.value
   const result = Promise.reduce(
     reducers,
-    (accumulator, reducer) => {
-      return resolveReducer(manager, accumulator, reducer)
+    (value, reducer) => {
+      const itemContext = utils.set(accumulator, 'value', value)
+      return resolveReducer(manager, itemContext, reducer)
     },
-    accumulator
+    initialValue
   )
 
   return result

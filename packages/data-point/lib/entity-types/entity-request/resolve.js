@@ -5,6 +5,8 @@ const rp = require('request-promise')
 
 const utils = require('../../utils')
 
+let debugIdCounter = 0
+
 /**
  * request's default options
  * @type {Object}
@@ -43,8 +45,8 @@ module.exports.getRequestOptions = getRequestOptions
 function resolveOptions (accumulator, resolveReducer) {
   const url = resolveUrl(accumulator)
   const specOptions = accumulator.reducer.spec.options
-  return resolveReducer(accumulator, specOptions).then(acc => {
-    const options = getRequestOptions(url, acc.value)
+  return resolveReducer(accumulator, specOptions).then(value => {
+    const options = getRequestOptions(url, value)
     return utils.assign(accumulator, { options })
   })
 }
@@ -93,19 +95,50 @@ module.exports.resolveUrl = resolveUrl
 /**
  * @param {Accumulator} acc
  */
-function inspect (acc) {
+function inspect (acc, request) {
   const paramInspect = acc.params && acc.params.inspect
-
-  if (typeof paramInspect === 'function') {
-    paramInspect(acc)
-    return true
-  }
-
   if (paramInspect === true) {
     utils.inspect(acc, {
       options: acc.options,
       value: acc.value
     })
+    return true
+  }
+
+  if (typeof paramInspect === 'function') {
+    // some of this logic borrows from https://github.com/request/request-debug
+    const debugId = ++debugIdCounter
+    const data = {
+      debugId,
+      type: 'request',
+      uri: request.uri.href,
+      method: request.method,
+      headers: _.cloneDeep(request.headers)
+    }
+    if (request.body) {
+      data.body = request.body.toString('utf8')
+    }
+    _.attempt(paramInspect, acc, data)
+    // This promise chain should not be returned,
+    // because it is only being used to trigger
+    // the paramInspect callback
+    request
+      .then(res => {
+        _.attempt(paramInspect, acc, {
+          debugId,
+          type: 'response',
+          statusCode: res.statusCode,
+          headers: res.headers
+        })
+      })
+      .catch(error => {
+        _.attempt(paramInspect, acc, {
+          debugId,
+          type: 'error',
+          statusCode: error.statusCode,
+          headers: error.headers
+        })
+      })
     return true
   }
 
@@ -120,9 +153,14 @@ module.exports.inspect = inspect
  * @return {Promise<Accumulator>}
  */
 function resolveRequest (acc, resolveReducer) {
-  inspect(acc)
-  return rp(acc.options)
-    .then(result => utils.set(acc, 'value', result))
+  const options = Object.assign({}, acc.options, {
+    resolveWithFullResponse: true
+  })
+
+  const request = rp(options)
+  inspect(acc, request)
+  return request
+    .then(res => res.body)
     .catch(error => {
       // remove auth objects from acc and error for printing to console
       const redactedAcc = fp.set('options.auth', '[omitted]', acc)
