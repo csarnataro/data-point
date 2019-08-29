@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>reducer-helpers/parallel/parallel.js - Docdash</title>
+    <title>is-plain-object.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -44,7 +44,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">reducer-helpers/parallel/parallel.js</h1>
+    <h1 class="page-title">is-plain-object.js</h1>
     
 
     
@@ -54,44 +54,25 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { Reducer } = require("../../Reducer");
-const { createReducer } = require("../../create-reducer");
-
-/**
- * Runs in parallel a set of provided reducers against the provided input.
+            <pre class="prettyprint source linenums"><code>/**
+ * This method is used to check if the argument passed is a simple object.
+ *
+ * Please take a look at the unit tests of this module to understand which
+ * values are considered an object.
+ *
+ * If there are more cases that need to be considered please create an issue.
+ *
+ * @param {any} obj
+ * @returns {Boolean} true if object created via `{}`
  */
-class ReducerParallel extends Reducer {
-  constructor(spec) {
-    super("parallel", undefined, spec);
-
-    /**
-     * @type {Reducer[]} list of reducers to run in parallel against a
-     * given input.
-     */
-    this.parallelReducers = spec.map(reducerSpec => createReducer(reducerSpec));
-  }
-
-  static create(spec) {
-    return new ReducerParallel(spec);
-  }
-
-  /**
-   * @param {Accumulator} accumulator
-   * @param {Function} resolveReducer
-   * @returns {Promise}
-   */
-  async resolve(accumulator, resolveReducer) {
-    return Promise.all(
-      this.parallelReducers.map(reducer => {
-        return resolveReducer(accumulator, reducer);
-      })
-    );
-  }
+function isPlainObject(obj) {
+  return (
+    obj !== null &amp;&amp;
+    typeof obj === "object" &amp;&amp;
+    Object.getPrototypeOf(obj) === Object.prototype
+  );
 }
-
-module.exports = {
-  ReducerParallel
-};
+module.exports = isPlainObject;
 </code></pre>
         </article>
     </section>
