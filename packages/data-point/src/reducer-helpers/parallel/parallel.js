@@ -2,7 +2,11 @@ const { Reducer } = require("../../Reducer");
 const { createReducer } = require("../../create-reducer");
 
 /**
- * Runs in parallel a set of provided reducers against the provided input.
+ * @class
+ * @classdesc ReducerParallel class. Runs in parallel a set of provided
+ *            reducers against the provided input.
+ *
+ * @extends Reducer
  */
 class ReducerParallel extends Reducer {
   constructor(spec) {

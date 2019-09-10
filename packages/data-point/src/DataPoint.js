@@ -77,6 +77,10 @@ function validateTracer(tracer) {
   }
 }
 
+/**
+ * @class
+ * @classdesc Main DataPoint class.
+ */
 class DataPoint {
   constructor() {
     Object.defineProperty(this, "cache", {

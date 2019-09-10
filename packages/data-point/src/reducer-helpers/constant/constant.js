@@ -12,6 +12,12 @@ function cloneObject(isObject, value) {
   return isObject ? cloneDeep(value) : value;
 }
 
+/**
+ * @class
+ * @classdesc ReducerConstant class. It's used for "deep cloning" the original
+ *            value
+ * @extends Reducer
+ */
 class ReducerConstant extends Reducer {
   constructor(spec) {
     super(undefined, spec);

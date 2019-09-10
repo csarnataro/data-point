@@ -16,6 +16,12 @@ function parseIfElse(spec) {
   };
 }
 
+/**
+ * @class
+ * @classdesc ReducerIfThenElse class
+ *
+ * @extends Reducer
+ */
 class ReducerIfThenElse extends Reducer {
   constructor(spec) {
     super(undefined, spec);

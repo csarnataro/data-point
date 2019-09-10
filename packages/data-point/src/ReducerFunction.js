@@ -1,5 +1,9 @@
 const { Reducer } = require("./Reducer");
 
+/**
+ * @alias ReducerFunction
+ * @extends Reducer
+ */
 class ReducerFunction extends Reducer {
   constructor(spec) {
     super(spec.name || "anonymous", spec);

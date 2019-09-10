@@ -1,6 +1,13 @@
 const { Reducer } = require("../../Reducer");
 const { createReducer } = require("../../create-reducer");
 
+
+/**
+ * @class
+ * @classdesc ReducerAssign, used for assigning the result of the `resolve` to
+ *            the accumulator value
+ * @extends Reducer
+ */
 class ReducerAssign extends Reducer {
   constructor(spec) {
     super(undefined, spec);
